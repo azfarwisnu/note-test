@@ -58,7 +58,7 @@ gobuster vhost -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.
 
 gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt,zip,html -t 20 -o scans/
 
-# kalau misal udah fuzzing gak ada ada apa apa fungzzing pake /cig-bin -x sh,cgi,pl
+## kalau misal udah fuzzing gak ada ada apa apa fungzzing pake /cig-bin -x sh,cgi,pl
 gobuster-admindir-medium-php_txt_html_zip
 
 
